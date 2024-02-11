@@ -1,0 +1,28 @@
+from googletrans import Translator
+from langcodes import Language
+
+def get_language_code(language_name):
+    try:
+        lang_code = Language.find(language_name).language
+    except:
+        lang_code = None
+    return lang_code
+
+def translate_text(text, target_language):
+    translator = Translator()
+    translation = translator.translate(text, dest=target_language)
+    return translation.text
+
+if __name__ == "__main__":
+    print("Welcome to the Language Translator!")
+    while True:
+        source_text = input("Enter the text you want to translate (or 'q' to quit): ")
+        if source_text.lower() == 'q':
+            break
+        target_language_name = input("Enter the language name you want to translate to (e.g., 'French', 'Spanish'): ")
+        target_language_code = get_language_code(target_language_name.capitalize())
+        if target_language_code is None:
+            print("Invalid language name. Please try again.\n")
+            continue
+        translated_text = translate_text(source_text, target_language_code)
+        print(f"Translated Text: {translated_text}\n")
